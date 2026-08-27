@@ -1,32 +1,50 @@
-dataset: SHRUG
+dataset: shrug
 version: "2.2"
-source: Development Data Lab
-source_url: https://www.devdatalab.org/shrug_download/
+release: "2026-08"
+source: "Development Data Lab"
+official_download: "https://www.devdatalab.org/shrug_download/"
 
-# Direct artifact URLs are intentionally left unset until verified from the
-# official v2.2 download portal. Do not infer or copy URLs from older releases.
-artifacts:
-  - name: core_keys
-    required_for: [location_resolution]
-    direct_url: null
-  - name: open_polygons
-    required_for: [market_reach, competitor_mapping]
-    direct_url: null
-  - name: spatial_statistics
-    required_for: [market_reach, evidence_quality]
-    direct_url: null
-  - name: population_census_2011
-    expected_files: [pc11_pca_clean_shrid]
-    required_for: [market_reach]
-    direct_url: null
-  - name: village_directory_2011
-    required_for: [infrastructure, market_reach]
-    direct_url: null
-  - name: economic_census_2013
-    expected_files: [ec13_shrid]
-    required_for: [competitor_mapping, opportunity]
-    direct_url: null
-  - name: rbi_bank_branch_data
-    required_for: [infrastructure]
-    direct_url: null
-    phase: later
+# Minimal Module 1 bootstrap. Raw files are acquired outside git and staged under
+# data/raw/shrug/v2.2/. Do not commit raw SHRUG data to this repository.
+modules:
+  core_keys:
+    purpose: "SHRID2 geographic identity and stable joins"
+    priority: 1
+  open_polygons:
+    purpose: "Village/town geometry for 5 km and 10 km catchments"
+    priority: 1
+  spatial_statistics:
+    purpose: "Coordinates, geometry quality and spatial support"
+    priority: 1
+  population_census_2011:
+    purpose: "Population and household market-base features"
+    priority: 1
+    tables:
+      - pca11
+    variables:
+      - pc11_pca_tot_p
+      - pc11_pca_no_hh
+      - pc11_pca_tot_work_p
+      - pc11_pca_p_lit
+      - pc11_pca_main_cl_p
+      - pc11_pca_main_al_p
+      - pc11_pca_main_hh_p
+      - pc11_pca_main_ot_p
+  economic_census_2013:
+    purpose: "Basic local non-farm economic activity and sector context"
+    priority: 2
+    tables:
+      - ec13
+    variables:
+      - ec13_emp_all
+      - ec13_emp_manuf
+      - ec13_emp_services
+
+# Later Module 1 enrichment, not required for the first vertical slice.
+later:
+  village_directory_2011:
+    purpose: "Markets, haats, banks, transport, electricity and amenities"
+  rbi:
+    purpose: "Bank branch access"
+  current_market_prices:
+    purpose: "2026/current pricing; not supplied by SHRUG baseline"
