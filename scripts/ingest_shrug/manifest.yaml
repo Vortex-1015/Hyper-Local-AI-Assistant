@@ -1,0 +1,32 @@
+dataset: SHRUG
+version: "2.2"
+source: Development Data Lab
+source_url: https://www.devdatalab.org/shrug_download/
+
+# Direct artifact URLs are intentionally left unset until verified from the
+# official v2.2 download portal. Do not infer or copy URLs from older releases.
+artifacts:
+  - name: core_keys
+    required_for: [location_resolution]
+    direct_url: null
+  - name: open_polygons
+    required_for: [market_reach, competitor_mapping]
+    direct_url: null
+  - name: spatial_statistics
+    required_for: [market_reach, evidence_quality]
+    direct_url: null
+  - name: population_census_2011
+    expected_files: [pc11_pca_clean_shrid]
+    required_for: [market_reach]
+    direct_url: null
+  - name: village_directory_2011
+    required_for: [infrastructure, market_reach]
+    direct_url: null
+  - name: economic_census_2013
+    expected_files: [ec13_shrid]
+    required_for: [competitor_mapping, opportunity]
+    direct_url: null
+  - name: rbi_bank_branch_data
+    required_for: [infrastructure]
+    direct_url: null
+    phase: later
